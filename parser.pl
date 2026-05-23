@@ -19,8 +19,12 @@ id            --> [a]|[b]|[c].
 /******************************************************************************/
 /* Var_part                                                                   */
 /******************************************************************************/
-var_part             --> var_part_todo.
-var_part_todo(_,_)   :-  write('var_part:  To Be Done'), nl.
+var_part        --> [var] var_dec_list.
+var_dec_list    --> var_dec | var_dec_list, var_dec.
+var_dec         --> id_list, [:], typ, [;].
+id_list         --> [id] | id_list, [id].
+typ             --> [integer] | [boolean] | [real].
+
 
 /******************************************************************************/
 /* Stat part                                                                  */
