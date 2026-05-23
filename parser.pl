@@ -1,6 +1,14 @@
 /******************************************************************************/
 /* Prolog Lab 2 example - Grammar test bed                                    */
 /******************************************************************************/
+:- consult('cmreader.pl').
+:- dynamic single_character/1.
+:- dynamic readword/3.
+:- retractall(single_character(58)).
+:- asserta((readword(C, W, C2) :- C = 58, get0(C1), readwordaux(C, W, C1, C2))).
+
+readwordaux(C, W, C1, C2) :- C1 = 61, name(W, [C, C1]), get0(C2).
+readwordaux(C, W, C1, C2) :- C1 \= 61, name(W, [C]), C1 = C2.
 
 /******************************************************************************/
 /* Grammar Rules in Definite Clause Grammar form                              */
@@ -19,14 +27,24 @@ id            --> [a]|[b]|[c].
 /******************************************************************************/
 /* Var_part                                                                   */
 /******************************************************************************/
-var_part             --> var_part_todo.
-var_part_todo(_,_)   :-  write('var_part:  To Be Done'), nl.
+var_part        --> [var], var_dec_list.
+var_dec_list    --> var_dec, var_dec_list | var_dec .
+var_dec         --> id_list, [':'], typ, [';'].
+id_list         --> [id], id_list | [id].
+typ             --> [integer] | [boolean] | [real].
+
 
 /******************************************************************************/
 /* Stat part                                                                  */
 /******************************************************************************/
-stat_part            -->  stat_part_todo.
-stat_part_todo(_,_)  :-   write('stat_part: To Be Done'), nl.
+stat_part       --> [begin], stat_list, [end], ['.'].
+stat_list       --> stat, stat_list| stat.
+stat            --> assign_stat.
+assign_stat     --> [id], [assign], expr.
+expr            --> term, ['+'], expr | term.
+term            --> factor, ['*'], term | factor.
+factor          --> ['('], expr, [')'] | operand.
+operand         --> [id] | [number].
 
 /******************************************************************************/
 /* Testing the system: this may be done stepwise in Prolog                    */
