@@ -175,7 +175,7 @@ operand         --> [270] | [272].
 /* Define the above tests                                                     */
 /******************************************************************************/
 parser(Tokens, Res) :-
-    (program(Tokens, Res), Res = [] -> write('Parse OK!') ; write('Parse Fail!')), nl.
+    (program(Tokens, Res), Res = [] -> write('Parse OK!') ; write('Parse Fail!')).
 
 
 testph :- prog_head([program, c, '(', input, ',', output, ')', ';'], []).
@@ -188,16 +188,39 @@ testok :- parseFiles(['testfiles/testok1.pas',
                       'testfiles/testok5.pas',
                       'testfiles/testok6.pas',
                       'testfiles/testok7.pas']).
+
+lab3 :-
+    tell('parser.out'),
+    write('Testing OK programs '), nl, nl,
+    parseFiles(['testfiles/testok1.pas', 'testfiles/testok2.pas', 'testfiles/testok3.pas',
+                'testfiles/testok4.pas', 'testfiles/testok5.pas', 'testfiles/testok6.pas',
+                'testfiles/testok7.pas']),
+    write('Testing a-z programs '), nl, nl,
+    parseFiles(['testfiles/testa.pas', 'testfiles/testb.pas', 'testfiles/testc.pas',
+                'testfiles/testd.pas', 'testfiles/teste.pas', 'testfiles/testf.pas',
+                'testfiles/testg.pas', 'testfiles/testh.pas', 'testfiles/testi.pas',
+                'testfiles/testj.pas', 'testfiles/testk.pas', 'testfiles/testl.pas',
+                'testfiles/testm.pas', 'testfiles/testn.pas', 'testfiles/testo.pas',
+                'testfiles/testp.pas', 'testfiles/testq.pas', 'testfiles/testr.pas',
+                'testfiles/tests.pas', 'testfiles/testt.pas', 'testfiles/testu.pas',
+                'testfiles/testv.pas', 'testfiles/testw.pas', 'testfiles/testx.pas',
+                'testfiles/testy.pas', 'testfiles/testz.pas']),
+    write('Testing fun programs '), nl, nl,
+    parseFiles(['testfiles/fun1.pas', 'testfiles/fun2.pas', 'testfiles/fun3.pas',
+                'testfiles/fun4.pas', 'testfiles/fun5.pas']),
+    write('Testing sem programs '), nl, nl,
+    parseFiles(['testfiles/sem1.pas', 'testfiles/sem2.pas', 'testfiles/sem3.pas',
+                'testfiles/sem4.pas', 'testfiles/sem5.pas']),
+    told.
+
 parseFiles([ ]).
 parseFiles([H|T]) :-
-    tell('parser.out'),
     write('Testing '), write(H), nl,
     read_in(H, L), write(L), nl,
     lexer(L, Tokens), write(Tokens), nl,
     parser(Tokens, _),
     nl, write(H), write(' end of parse'), nl, nl,
-    parseFiles(T),
-    told.
+    parseFiles(T).
 /******************************************************************************/
 /* End of program                                                             */
 /******************************************************************************/
