@@ -189,7 +189,7 @@ testok :- parseFiles(['testfiles/testok1.pas',
                       'testfiles/testok6.pas',
                       'testfiles/testok7.pas']).
 
-lab3 :-
+testall :-
     tell('parser.out'),
     write('Testing OK programs '), nl, nl,
     parseFiles(['testfiles/testok1.pas', 'testfiles/testok2.pas', 'testfiles/testok3.pas',
@@ -212,6 +212,10 @@ lab3 :-
     parseFiles(['testfiles/sem1.pas', 'testfiles/sem2.pas', 'testfiles/sem3.pas',
                 'testfiles/sem4.pas', 'testfiles/sem5.pas']),
     told.
+
+lab2(File, Result) :-
+    read_in(File, L), lexer(L, Tokens), parser(Tokens, Result).
+
 
 parseFiles([ ]).
 parseFiles([H|T]) :-
