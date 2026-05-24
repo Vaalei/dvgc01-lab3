@@ -176,10 +176,26 @@ operand         --> [identifier] | [number].
 /******************************************************************************/
 /* Define the above tests                                                     */
 /******************************************************************************/
+parser(Tokens, Res) :-
+    (program(Tokens, Res), Res = [] -> write('Parse OK!') ; write('Parse Fail!')), nl.
+
 
 testph :- prog_head([program, c, '(', input, ',', output, ')', ';'], []).
 testpr :-   program([program, c, '(', input, ',', output, ')', ';'], []).
 
+testok :- parseFiles(['testfiles/testok1.pas',
+                      'testfiles/testok2.pas',
+                      'testfiles/testok3.pas',
+                      'testfiles/testok4.pas',
+                      'testfiles/testok5.pas',
+                      'testfiles/testok6.pas',
+                      'testfiles/testok7.pas']).
+parseFiles([ ]).
+parseFiles([H|T]) :-
+    write('Testing '), write(H), nl,
+    read_in(H,L), lexer(L, Tokens), parser(Tokens, Result),
+    nl, write(H), write(' end'), nl, nl,
+    parseFiles(T).
 /******************************************************************************/
 /* End of program                                                             */
 /******************************************************************************/
