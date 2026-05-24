@@ -55,8 +55,10 @@ match('begin', 261).
 match('end', 262). 
 match('boolean', 263).
 match('real', 264). 
-match('id', 270). 
-match(':=', 271). 
+match(':=', 271).
+
+match(L, F) :-
+    name(L, [T|_]), char_type(T, alpha), F is 273.
 
 match('(', 40).
 match(')', 41).
@@ -68,8 +70,8 @@ match(':', 58).
 match(';', 59).
 
 
-match(w, 270) :- atom(w), \+ match(w, _).
-match(n, 272) :- number(w).
+match(W, 270) :- atom(W), \+ match(W, _).
+match(W, 272) :- number(W).
 match(_,273).
 
 
@@ -84,8 +86,8 @@ program       --> prog_head, var_part, stat_part.
 /******************************************************************************/
 /* Program Header                                                             */
 /******************************************************************************/
-prog_head     --> [256], identifier, [40], [257], [44], [258], [41], [46].
-identifier    --> [270].
+prog_head       --> [256], id, [40], [257], [44], [258], [41], [46].
+id              --> [270].
 
 /******************************************************************************/
 /* Var_part                                                                   */
@@ -192,10 +194,14 @@ testok :- parseFiles(['testfiles/testok1.pas',
                       'testfiles/testok7.pas']).
 parseFiles([ ]).
 parseFiles([H|T]) :-
+    tell('parser.out'),
     write('Testing '), write(H), nl,
-    read_in(H,L), lexer(L, Tokens), parser(Tokens, Result),
-    nl, write(H), write(' end'), nl, nl,
-    parseFiles(T).
+    read_in(H, L), write(L), nl,
+    lexer(L, Tokens), write(Tokens), nl,
+    parser(Tokens, _),
+    nl, write(H), write(' end of parse'), nl, nl,
+    parseFiles(T),
+    told.
 /******************************************************************************/
 /* End of program                                                             */
 /******************************************************************************/
