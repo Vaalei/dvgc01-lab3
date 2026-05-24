@@ -5,6 +5,7 @@
 :- dynamic single_character/1.
 :- dynamic readword/3.
 :- retractall(single_character(58)).
+:- asserta(single_character(45)).
 :- asserta((readword(C, W, C2) :- C = 58, get0(C1), readwordaux(C, W, C1, C2))).
 
 readwordaux(C, W, C1, C2) :- C1 = 61, name(W, [C, C1]), get0(C2).
@@ -65,8 +66,7 @@ match('.', 46).
 match(':', 58).
 match(';', 59).
 
-
-match(W, 270) :- atom(W), \+ member(W, ['program', 'input', 'output', 'var', 'integer', 'begin', 'end', 'boolean', 'real', ':=', '(', ')', '*', '+', ',', '.', ':', ';']).
+match(W, 270) :- atom(W), \+ member(W, ['program', 'input', 'output', 'var', 'integer', 'begin', 'end', 'boolean', 'real', ':=','=' , '(', ')', '*', '+', '-', ',', '.', ':', ';']).
 match(W, 272) :- number(W).
 match(_,273).
 
