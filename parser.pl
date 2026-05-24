@@ -10,6 +10,69 @@
 readwordaux(C, W, C1, C2) :- C1 = 61, name(W, [C, C1]), get0(C2).
 readwordaux(C, W, C1, C2) :- C1 \= 61, name(W, [C]), C1 = C2.
 
+lpar   -->[40].     % ( 
+rpar   -->[41].     % ) 
+mult   -->[42].     % * 
+plus   -->[43].     % + 
+comma  -->[44].     % , 
+dot    -->[46].     % . 
+colon  -->[58].     % : 
+scolon -->[59].     % ; 
+
+
+program -->[256].
+input   -->[257].
+output  -->[258].
+var     -->[259].
+integer -->[260].
+begin   -->[261].
+end     -->[262].
+boolean -->[263].
+real    -->[264].
+id      -->[270].
+assign  -->[271].
+number  -->[272].
+undef   -->[273].
+eof     -->[275].
+
+
+
+
+lexer([], []).
+lexer([H|T], [F|S]) :-
+    match(H, F), 
+    !,
+    lexer(T, S).
+    
+match(-1, 275).
+
+match('program', 256).
+match('input', 257). 
+match('output', 258).
+match('var', 259). 
+match('integer', 260).
+match('begin', 261). 
+match('end', 262). 
+match('boolean', 263).
+match('real', 264). 
+match('id', 270). 
+match(':=', 271). 
+
+match('(', 40).
+match(')', 41).
+match('*', 42).
+match('+', 43).
+match(',', 44).
+match('.', 46).
+match(':', 58).
+match(';', 59).
+
+
+match(w, 270) :- atom(w), \+ match(w, _).
+match(n, 272) :- number(w).
+match(_,273).
+
+
 /******************************************************************************/
 /* Grammar Rules in Definite Clause Grammar form                              */
 /* This the set of productions, P, for this grammar                           */
