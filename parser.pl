@@ -20,20 +20,20 @@ colon  -->[58].     % :
 scolon -->[59].     % ; 
 
 
-prog    -->[256].
-input   -->[257].
-output  -->[258].
-var     -->[259].
-integer -->[260].
-begin   -->[261].
-end     -->[262].
-boolean -->[263].
-real    -->[264].
+prog        -->[256].
+input       -->[257].
+output      -->[258].
+variable    -->[259].
+int         -->[260].
+begin       -->[261].
+end         -->[262].
+boolean     -->[263].
+real        -->[264].
 identifier  -->[270].
-assign  -->[271].
-number  -->[272].
-undef   -->[273].
-eof     -->[275].
+assign      -->[271].
+numb        -->[272].
+undef       -->[273].
+eof         -->[275].
 
 
 
@@ -84,30 +84,30 @@ program       --> prog_head, var_part, stat_part.
 /******************************************************************************/
 /* Program Header                                                             */
 /******************************************************************************/
-prog_head     --> [prog], id, ['('], [input], [','], [output], [')'], [';'].
-id            --> [a]|[b]|[c].
+prog_head     --> [256], identifier, [40], [257], [44], [258], [41], [46].
+identifier    --> [270].
 
 /******************************************************************************/
 /* Var_part                                                                   */
 /******************************************************************************/
-var_part        --> [var], var_dec_list.
+var_part        --> [259], var_dec_list.
 var_dec_list    --> var_dec, var_dec_list | var_dec .
-var_dec         --> id_list, [':'], typ, [';'].
-id_list         --> [identifier], id_list | [identifier].
-typ             --> [integer] | [boolean] | [real].
+var_dec         --> id_list, [58], typ, [59].
+id_list         --> [270], [44], id_list | [270].
+typ             --> [260] | [263] | [264].
 
 
 /******************************************************************************/
 /* Stat part                                                                  */
 /******************************************************************************/
-stat_part       --> [begin], stat_list, [end], ['.'].
-stat_list       --> stat, stat_list| stat.
+stat_part       --> [261], stat_list, [262], [46].
+stat_list       --> stat, [59], stat_list| stat.
 stat            --> assign_stat.
-assign_stat     --> [identifier], [assign], expr.
-expr            --> term, ['+'], expr | term.
-term            --> factor, ['*'], term | factor.
-factor          --> ['('], expr, [')'] | operand.
-operand         --> [identifier] | [number].
+assign_stat     --> [270], [271], expr.
+expr            --> term, [43], expr | term.
+term            --> factor, [42], term | factor.
+factor          --> [40], expr, [41] | operand.
+operand         --> [270] | [272].
 
 /******************************************************************************/
 /* Testing the system: this may be done stepwise in Prolog                    */
