@@ -20,7 +20,7 @@ colon  -->[58].     % :
 scolon -->[59].     % ; 
 
 
-program -->[256].
+prog    -->[256].
 input   -->[257].
 output  -->[258].
 var     -->[259].
@@ -29,7 +29,7 @@ begin   -->[261].
 end     -->[262].
 boolean -->[263].
 real    -->[264].
-id      -->[270].
+identifier  -->[270].
 assign  -->[271].
 number  -->[272].
 undef   -->[273].
@@ -84,7 +84,7 @@ program       --> prog_head, var_part, stat_part.
 /******************************************************************************/
 /* Program Header                                                             */
 /******************************************************************************/
-prog_head     --> [program], id, ['('], [input], [','], [output], [')'], [';'].
+prog_head     --> [prog], id, ['('], [input], [','], [output], [')'], [';'].
 id            --> [a]|[b]|[c].
 
 /******************************************************************************/
@@ -93,7 +93,7 @@ id            --> [a]|[b]|[c].
 var_part        --> [var], var_dec_list.
 var_dec_list    --> var_dec, var_dec_list | var_dec .
 var_dec         --> id_list, [':'], typ, [';'].
-id_list         --> [id], id_list | [id].
+id_list         --> [identifier], id_list | [identifier].
 typ             --> [integer] | [boolean] | [real].
 
 
@@ -103,11 +103,11 @@ typ             --> [integer] | [boolean] | [real].
 stat_part       --> [begin], stat_list, [end], ['.'].
 stat_list       --> stat, stat_list| stat.
 stat            --> assign_stat.
-assign_stat     --> [id], [assign], expr.
+assign_stat     --> [identifier], [assign], expr.
 expr            --> term, ['+'], expr | term.
 term            --> factor, ['*'], term | factor.
 factor          --> ['('], expr, [')'] | operand.
-operand         --> [id] | [number].
+operand         --> [identifier] | [number].
 
 /******************************************************************************/
 /* Testing the system: this may be done stepwise in Prolog                    */
