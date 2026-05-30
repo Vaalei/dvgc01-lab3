@@ -85,30 +85,30 @@ program       --> prog_head, var_part, stat_part.
 /******************************************************************************/
 /* Program Header                                                             */
 /******************************************************************************/
-prog_head       --> [256], id, [40], [257], [44], [258], [41], [59].
-id              --> [270].
+prog_head       --> prog, id, lpar, input, comma, output, rpar, scolon.
+id              --> identifier.
 
 /******************************************************************************/
 /* Var_part                                                                   */
 /******************************************************************************/
-var_part        --> [259], var_dec_list.
+var_part        --> variable, var_dec_list.
 var_dec_list    --> var_dec, var_dec_list | var_dec .
-var_dec         --> id_list, [58], typ, [59].
-id_list         --> [270], [44], id_list | [270].
-typ             --> [260] | [263] | [264].
+var_dec         --> id_list, colon, typ, scolon.
+id_list         --> identifier, comma, id_list | identifier.
+typ             --> int | boolean | real.
 
 
 /******************************************************************************/
 /* Stat part                                                                  */
 /******************************************************************************/
-stat_part       --> [261], stat_list, [262], [46].
-stat_list       --> stat, [59], stat_list| stat.
+stat_part       --> begin, stat_list, end, dot.
+stat_list       --> stat, scolon, stat_list| stat.
 stat            --> assign_stat.
-assign_stat     --> [270], [271], expr.
-expr            --> term, [43], expr | term.
-term            --> factor, [42], term | factor.
-factor          --> [40], expr, [41] | operand.
-operand         --> [270] | [272].
+assign_stat     --> identifier, assign, expr.
+expr            --> term, plus, expr | term.
+term            --> factor, mult, term | factor.
+factor          --> lpar, expr, rpar | operand.
+operand         --> identifier | numb.
 
 /******************************************************************************/
 /* Testing the system: this may be done stepwise in Prolog                    */
